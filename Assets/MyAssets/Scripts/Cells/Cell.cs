@@ -22,7 +22,7 @@ public class Cell
     //Update cell status will only work as long as the cell is not made visible
     public void UpdateCellStatus(CellStatus cellStatus)
     {
-        if(cellStatus != CellStatus.Visible)
+        if(this.cellStatus != CellStatus.Visible)
         {
             this.cellStatus = cellStatus;
         }
