@@ -21,16 +21,26 @@ public class GridManager : MonoBehaviour
         {
             for (int col = 0; col < cols; col++)
             {
-                GameObject tile = Instantiate(tilePrefab, transformParent);
-
                 float posX = col * tileSize;
                 float posY = row * -tileSize;
 
-                RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
-                tileRectTransform.localPosition = new Vector2(posX, posY);
+                InstantiateTile(posX, posY);
             }
         }
 
+        UpdateParentPosition();
+    }
+
+    private void InstantiateTile(float posX, float posY)
+    {
+        GameObject tile = Instantiate(tilePrefab, transformParent);
+
+        RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
+        tileRectTransform.localPosition = new Vector2(posX, posY);
+    }
+
+    private void UpdateParentPosition()
+    {
         float gridWidth = cols * tileSize;
         float gridHeight = rows * tileSize;
         transformParent.localPosition = new Vector2(-gridWidth / 2 + tileSize / 2, gridHeight / 2 - tileSize / 2);

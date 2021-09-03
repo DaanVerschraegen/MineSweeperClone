@@ -46,5 +46,9 @@ public class CellManager : MonoBehaviour
     {
         img.color = cell.GetCellColor();
     }
-
+    
+    public void SetCellAsBomb()
+    {
+        cell.SetIsBomb(true);
+    }
 }
