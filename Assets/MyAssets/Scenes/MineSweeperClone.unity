@@ -414,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 9
   cols: 9
-  tileSize: 100
+  tileSize: 101
   tilePrefab: {fileID: 869476323271962885, guid: e3788cba0b3e83241b20279f4992cd1b, type: 3}
   transformParent: {fileID: 1920576748}
 --- !u!1 &1966199199

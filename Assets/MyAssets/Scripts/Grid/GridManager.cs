@@ -26,8 +26,13 @@ public class GridManager : MonoBehaviour
                 float posX = col * tileSize;
                 float posY = row * -tileSize;
 
-                tile.transform.position = new Vector2(posX, posY);
+                RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
+                tileRectTransform.localPosition = new Vector2(posX, posY);
             }
         }
+
+        float gridWidth = cols * tileSize;
+        float gridHeight = rows * tileSize;
+        transformParent.localPosition = new Vector2(-gridWidth / 2 + tileSize / 2, gridHeight / 2 - tileSize / 2);
     }
 }
