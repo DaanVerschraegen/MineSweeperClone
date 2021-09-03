@@ -6,6 +6,7 @@ public class Cell
 {
     private CellStatus cellStatus;
     private int amountBombsAroundCell;
+    private bool isBomb;
 
     private Color colorCellHidden = Color.gray;
     private Color colorCellSelected = Color.blue;
@@ -14,6 +15,7 @@ public class Cell
     public Cell()
     {
         cellStatus = CellStatus.Hidden;
+        isBomb = false;
         amountBombsAroundCell = 0;
     }
 
@@ -34,6 +36,16 @@ public class Cell
     public void SetAmountBombsAroundCell(int amountBombs)
     {
         amountBombsAroundCell = amountBombs;
+    }
+
+    public bool IsBomb()
+    {
+        return isBomb;
+    }
+
+    public void SetIsBomb(bool isBomb)
+    {
+        this.isBomb = isBomb;
     }
 
     public Color GetCellColor()
