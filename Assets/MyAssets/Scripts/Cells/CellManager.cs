@@ -22,7 +22,7 @@ public class CellManager : MonoBehaviour
         UpdateCellColor();
     }
 
-    public void ChangeImageSelected(bool selected)
+    public void ChangeSelectedCell(bool selected)
     {
         if(selected)
         {
@@ -33,6 +33,12 @@ public class CellManager : MonoBehaviour
             cell.UpdateCellStatus(CellStatus.Hidden);
         }
 
+        UpdateCellColor();
+    }
+
+    public void RevealCell()
+    {
+        cell.UpdateCellStatus(CellStatus.Visible);
         UpdateCellColor();
     }
 
