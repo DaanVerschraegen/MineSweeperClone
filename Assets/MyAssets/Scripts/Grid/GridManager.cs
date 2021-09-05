@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    static public GridManager instance;
+
     [SerializeField] private int rows = 9;
     [SerializeField] private int cols = 9;
     [SerializeField] private float tileSize = 100f;
@@ -11,12 +13,26 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Transform transformParent;
     [SerializeField] private int amountBombs = 10;
 
-    private CellManager[,] gridArray;
+    private List<Cell> listCells;
+
+    private void Awake()
+    {
+        if(instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+
+            listCells = new List<Cell>();
+        }
+    }
 
     private void Start()
     {
-        gridArray = new CellManager[rows, cols];
         GenerateGrid();
+        AddBombsToCells();
     }
 
     private void GenerateGrid()
@@ -36,8 +52,8 @@ public class GridManager : MonoBehaviour
     {
         GameObject tile = Instantiate(tilePrefab, transformParent);
 
-        CellManager cellManager = tile.GetComponent<CellManager>();
-        gridArray[row, col] = cellManager;
+        Cell cell = tile.GetComponent<CellManager>().getCell();
+        listCells.Add(cell);
 
         RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
         float posX = col * tileSize;
@@ -50,5 +66,27 @@ public class GridManager : MonoBehaviour
         float gridWidth = cols * tileSize;
         float gridHeight = rows * tileSize;
         transformParent.localPosition = new Vector2(-gridWidth / 2 + tileSize / 2, gridHeight / 2 - tileSize / 2);
+    }
+
+    private void AddBombsToCells()
+    {
+        for (int i = 0; i < amountBombs; i++)
+        {
+            Cell randomCell;
+            do
+            {
+                randomCell = GetRandomCellFromListCells();
+            } while (randomCell.IsBomb());
+
+            randomCell.SetIsBomb(true);
+        }
+    }
+
+    private Cell GetRandomCellFromListCells()
+    {
+        int randomIndex = Random.Range(0, listCells.Count);
+        Cell randomCell = listCells[randomIndex];
+
+        return randomCell;
     }
 }
