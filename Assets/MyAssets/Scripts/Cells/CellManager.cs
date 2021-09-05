@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CellManager : MonoBehaviour
 {
     private RawImage img;
+    private TextMeshProUGUI txtAmountBombsAroundCell;
     private Cell cell;
 
     private void Awake()
@@ -17,6 +19,9 @@ public class CellManager : MonoBehaviour
     {
         img = GetComponentInChildren<RawImage>();
         Debug.Assert(img != null, "component RawImage not found.");
+
+        txtAmountBombsAroundCell = GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Assert(txtAmountBombsAroundCell != null, "component TextMeshProUGUI not found.");
 
         cell = new Cell();
         UpdateCellColor();
@@ -40,11 +45,17 @@ public class CellManager : MonoBehaviour
     {
         cell.UpdateCellStatus(CellStatus.Visible);
         UpdateCellColor();
+        UpdateCellText();
     }
 
     private void UpdateCellColor()
     {
         img.color = cell.GetCellColor();
+    }
+
+    private void UpdateCellText()
+    {
+        txtAmountBombsAroundCell.text = cell.GetAmountBombsAroundCell().ToString();
     }
     
     public void SetCellAsBomb()
