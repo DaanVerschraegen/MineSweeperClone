@@ -9,9 +9,13 @@ public class GridManager : MonoBehaviour
     [SerializeField] private float tileSize = 100f;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Transform transformParent;
+    [SerializeField] private int amountBombs = 10;
+
+    private CellManager[,] gridArray;
 
     private void Start()
     {
+        gridArray = new CellManager[rows, cols];
         GenerateGrid();
     }
 
@@ -21,21 +25,23 @@ public class GridManager : MonoBehaviour
         {
             for (int col = 0; col < cols; col++)
             {
-                float posX = col * tileSize;
-                float posY = row * -tileSize;
-
-                InstantiateTile(posX, posY);
+                InstantiateTile(row, col);
             }
         }
 
         UpdateParentPosition();
     }
 
-    private void InstantiateTile(float posX, float posY)
+    private void InstantiateTile(int row, int col)
     {
         GameObject tile = Instantiate(tilePrefab, transformParent);
 
+        CellManager cellManager = tile.GetComponent<CellManager>();
+        gridArray[row, col] = cellManager;
+
         RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
+        float posX = col * tileSize;
+        float posY = row * -tileSize;
         tileRectTransform.localPosition = new Vector2(posX, posY);
     }
 
