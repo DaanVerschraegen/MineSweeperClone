@@ -13,7 +13,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Transform transformParent;
     [SerializeField] private int amountBombs = 10;
 
-    private List<Cell> listCells;
+    private List<CellManager> listCellManagers;
+    [SerializeField] private int[] indexOffsetsSurroundingCells;
 
     private void Awake()
     {
@@ -25,7 +26,8 @@ public class GridManager : MonoBehaviour
         {
             instance = this;
 
-            listCells = new List<Cell>();
+            listCellManagers = new List<CellManager>();
+            indexOffsetsSurroundingCells = new int[] {-cols - 1, -cols, -cols + 1, -1, 1, cols - 1, cols, cols + 1};
         }
     }
 
@@ -52,8 +54,8 @@ public class GridManager : MonoBehaviour
     {
         GameObject tile = Instantiate(tilePrefab, transformParent);
 
-        Cell cell = tile.GetComponent<CellManager>().getCell();
-        listCells.Add(cell);
+        CellManager cellManager = tile.GetComponent<CellManager>();
+        listCellManagers.Add(cellManager);
 
         RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
         float posX = col * tileSize;
@@ -72,21 +74,67 @@ public class GridManager : MonoBehaviour
     {
         for (int i = 0; i < amountBombs; i++)
         {
-            Cell randomCell;
+            CellManager randomCellManager;
             do
             {
-                randomCell = GetRandomCellFromListCells();
-            } while (randomCell.IsBomb());
+                randomCellManager = GetRandomCellFromListCellManagers();
+            } while (randomCellManager.getCell().IsBomb());
 
-            randomCell.SetIsBomb(true);
+            randomCellManager.getCell().SetIsBomb(true);
+            AddBombToCounterBombsAroundCell(randomCellManager);
         }
     }
 
-    private Cell GetRandomCellFromListCells()
+    private CellManager GetRandomCellFromListCellManagers()
     {
-        int randomIndex = Random.Range(0, listCells.Count);
-        Cell randomCell = listCells[randomIndex];
+        int randomIndex = Random.Range(0, listCellManagers.Count);
+        CellManager randomCellManager = listCellManagers[randomIndex];
 
-        return randomCell;
+        return randomCellManager;
+    }
+
+    private void AddBombToCounterBombsAroundCell(CellManager cellManager)
+    {
+        int index = GetIndexOfCellManager(cellManager);
+
+        if(index >= 0)
+        {
+            int indexSurroundingCell;
+
+            foreach (int indexOffset in indexOffsetsSurroundingCells)
+            {
+                indexSurroundingCell = index + indexOffset;
+
+                if(0 <= indexSurroundingCell && indexSurroundingCell < listCellManagers.Count)
+                {
+                    listCellManagers[indexSurroundingCell].getCell().AddBombsToCounterBombsAroundCell(1);
+                }
+            }
+        }
+    }
+
+    public void RevealCellsAroundCell(CellManager cellManager)
+    {
+        int index = GetIndexOfCellManager(cellManager);
+        
+        if(index >= 0)
+        {
+            int indexSurroundingCell;
+
+            foreach (int indexOffset in indexOffsetsSurroundingCells)
+            {
+                indexSurroundingCell = index + indexOffset;
+
+                if(0 <= indexSurroundingCell && indexSurroundingCell < listCellManagers.Count)
+                {
+                    listCellManagers[indexSurroundingCell].RevealCell();
+                }
+            }
+        }
+    }
+
+    private int GetIndexOfCellManager(CellManager cellManager)
+    {
+        return listCellManagers.IndexOf(cellManager);
     }
 }

@@ -28,14 +28,19 @@ public class Cell
         }
     }
 
+    public CellStatus getCellStatus()
+    {
+        return cellStatus;
+    }
+
     public int GetAmountBombsAroundCell()
     {
         return amountBombsAroundCell;
     }
 
-    public void SetAmountBombsAroundCell(int amountBombs)
+    public void AddBombsToCounterBombsAroundCell(int amountBombs)
     {
-        amountBombsAroundCell = amountBombs;
+        amountBombsAroundCell += amountBombs;
     }
 
     public bool IsBomb()

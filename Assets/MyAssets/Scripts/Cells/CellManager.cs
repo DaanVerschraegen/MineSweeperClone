@@ -48,6 +48,12 @@ public class CellManager : MonoBehaviour
 
     public void RevealCell()
     {
+        //Do not execute this method if the cellstatus is already visible
+        if(cell.getCellStatus() == CellStatus.Visible)
+        {
+            return;
+        }
+
         cell.UpdateCellStatus(CellStatus.Visible);
         UpdateCellColor();
 
@@ -79,6 +85,10 @@ public class CellManager : MonoBehaviour
         if(amountBombs > 0)
         {
             txtAmountBombsAroundCell.text = amountBombs.ToString();
+        }
+        else
+        {
+            GridManager.instance.RevealCellsAroundCell(this);
         }
     }
     
