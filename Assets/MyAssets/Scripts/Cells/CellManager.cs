@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CellManager : MonoBehaviour
 {
-    private RawImage img;
+    private RawImage rawImg;
+    private TextMeshProUGUI txtAmountBombsAroundCell;
     private Cell cell;
 
     private void Awake()
@@ -15,11 +17,19 @@ public class CellManager : MonoBehaviour
 
     private void Instantiate()
     {
-        img = GetComponentInChildren<RawImage>();
-        Debug.Assert(img != null, "component RawImage not found.");
+        rawImg = GetComponentInChildren<RawImage>();
+        Debug.Assert(rawImg != null, "component RawImage not found.");
+
+        txtAmountBombsAroundCell = GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Assert(txtAmountBombsAroundCell != null, "component TextMeshProUGUI not found.");
 
         cell = new Cell();
         UpdateCellColor();
+    }
+
+    public Cell getCell()
+    {
+        return cell;
     }
 
     public void ChangeSelectedCell(bool selected)
@@ -38,13 +48,52 @@ public class CellManager : MonoBehaviour
 
     public void RevealCell()
     {
+        //Do not execute this method if the cellstatus is already visible
+        if(cell.getCellStatus() == CellStatus.Visible)
+        {
+            return;
+        }
+
         cell.UpdateCellStatus(CellStatus.Visible);
         UpdateCellColor();
+
+        if(!cell.IsBomb())
+        {
+            UpdateCellText();
+        }
+        else
+        {
+            ActivateImageBomb();
+        }
+    }
+
+    private void ActivateImageBomb()
+    {
+        Image imgBomb = GetComponentInChildren<Image>(true);
+        imgBomb.transform.gameObject.SetActive(true);
     }
 
     private void UpdateCellColor()
     {
-        img.color = cell.GetCellColor();
+        rawImg.color = cell.GetCellColor();
     }
 
+    private void UpdateCellText()
+    {
+        int amountBombs = cell.GetAmountBombsAroundCell();
+
+        if(amountBombs > 0)
+        {
+            txtAmountBombsAroundCell.text = amountBombs.ToString();
+        }
+        else
+        {
+            GridManager.instance.RevealCellsAroundCell(this);
+        }
+    }
+    
+    public void SetCellAsBomb()
+    {
+        cell.SetIsBomb(true);
+    }
 }
