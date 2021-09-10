@@ -33,6 +33,7 @@ public class CellManager : MonoBehaviour
         return cell;
     }
 
+    //This method only executes when CellStatus is either "Selected" or "Hidden"
     public void ChangeSelectedCell(bool selected)
     {
         if(cell.GetCellStatus() == CellStatus.Selected || cell.GetCellStatus() == CellStatus.Hidden)
@@ -71,9 +72,22 @@ public class CellManager : MonoBehaviour
         }
     }
 
+    //Change status to "FlaggedAsBomb" if current status is "Selected" or "Hidden"
+    //Change status back to "Selected" if current status is "FlaggedAsBomb"
+    //Then UpdateCellColor
     public void FlagCell()
     {
-        cell.UpdateCellStatus(CellStatus.FlaggedAsBomb);
+        switch (cell.GetCellStatus())
+        {
+            case CellStatus.Selected:
+            case CellStatus.Hidden:
+                cell.UpdateCellStatus(CellStatus.FlaggedAsBomb);
+                break;
+            case CellStatus.FlaggedAsBomb:
+                cell.UpdateCellStatus(CellStatus.Hidden);
+                break;
+        }
+
         UpdateCellColor();
     }
 
