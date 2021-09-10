@@ -68,6 +68,12 @@ public class CellManager : MonoBehaviour
         }
     }
 
+    public void FlagCell()
+    {
+        cell.UpdateCellStatus(CellStatus.FlaggedAsBomb);
+        UpdateCellColor();
+    }
+
     private void ActivateImageBomb()
     {
         Image imgBomb = GetComponentInChildren<Image>(true);

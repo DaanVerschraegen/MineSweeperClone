@@ -3,5 +3,5 @@ Selected when hovering over cell,
 Visible when cell is clicked and revealed*/
 public enum CellStatus
 {
-    Hidden, Selected, Visible
+    Hidden, Selected, Visible, FlaggedAsBomb
 }

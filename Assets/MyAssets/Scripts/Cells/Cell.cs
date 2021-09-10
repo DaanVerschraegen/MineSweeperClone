@@ -11,6 +11,7 @@ public class Cell
     private Color colorCellHidden = Color.gray;
     private Color colorCellSelected = Color.blue;
     private Color colorCellVisible = Color.white;
+    private Color colorCellFlagged = Color.red;
 
     public Cell()
     {
@@ -61,6 +62,8 @@ public class Cell
                 return colorCellSelected;
             case CellStatus.Visible:
                 return colorCellVisible;
+            case CellStatus.FlaggedAsBomb:
+                return colorCellFlagged;
             default:
                 return colorCellHidden;
         }
