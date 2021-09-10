@@ -35,22 +35,25 @@ public class CellManager : MonoBehaviour
 
     public void ChangeSelectedCell(bool selected)
     {
-        if(selected)
+        if(cell.GetCellStatus() == CellStatus.Selected || cell.GetCellStatus() == CellStatus.Hidden)
         {
-            cell.UpdateCellStatus(CellStatus.Selected);
-        }
-        else
-        {
-            cell.UpdateCellStatus(CellStatus.Hidden);
-        }
+            if(selected)
+            {
+                cell.UpdateCellStatus(CellStatus.Selected);
+            }
+            else
+            {
+                cell.UpdateCellStatus(CellStatus.Hidden);
+            }
 
-        UpdateCellColor();
+            UpdateCellColor();
+        }
     }
 
     public void RevealCell()
     {
         //Do not execute this method if the cellstatus is already visible
-        if(cell.getCellStatus() == CellStatus.Visible)
+        if(cell.GetCellStatus() == CellStatus.Visible)
         {
             return;
         }

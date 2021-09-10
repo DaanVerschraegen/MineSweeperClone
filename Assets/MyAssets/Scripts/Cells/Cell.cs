@@ -29,7 +29,7 @@ public class Cell
         }
     }
 
-    public CellStatus getCellStatus()
+    public CellStatus GetCellStatus()
     {
         return cellStatus;
     }

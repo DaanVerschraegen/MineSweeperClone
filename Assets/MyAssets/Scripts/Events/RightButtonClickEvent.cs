@@ -11,7 +11,7 @@ public class RightButtonClickEvent : MonoBehaviour, IPointerClickHandler
         {
             CellManager cellManager = GetComponent<CellManager>();
 
-            if(cellManager)
+            if(cellManager && cellManager.GetCell().GetCellStatus() != CellStatus.FlaggedAsBomb)
             {
                 cellManager.RevealCell();
             }
