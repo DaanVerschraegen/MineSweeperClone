@@ -13,8 +13,17 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Transform transformParent;
     [SerializeField] private int amountBombs = 10;
 
-    private List<CellManager> listCellManagers;
-    [SerializeField] private int[] indexOffsetsSurroundingCells;
+    private CellManager[,] gridArray;
+    private static Vector2Int[] indexOffsetsSurroundingCells = new Vector2Int[]{
+        Vector2Int.left,
+        Vector2Int.up,
+        Vector2Int.right,
+        Vector2Int.down,
+        new Vector2Int(-1, -1),
+        new Vector2Int(-1, 1),
+        new Vector2Int(1, -1),
+        new Vector2Int(1, 1)
+    };
 
     private void Awake()
     {
@@ -26,8 +35,7 @@ public class GridManager : MonoBehaviour
         {
             instance = this;
 
-            listCellManagers = new List<CellManager>();
-            indexOffsetsSurroundingCells = new int[] {-cols - 1, -cols, -cols + 1, -1, 1, cols - 1, cols, cols + 1};
+            gridArray = new CellManager[rows, cols];
         }
     }
 
@@ -55,7 +63,8 @@ public class GridManager : MonoBehaviour
         GameObject tile = Instantiate(tilePrefab, transformParent);
 
         CellManager cellManager = tile.GetComponent<CellManager>();
-        listCellManagers.Add(cellManager);
+        gridArray[row, col] = cellManager;
+        cellManager.SetGridPosition(row, col);
 
         RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
         float posX = col * tileSize;
@@ -78,36 +87,37 @@ public class GridManager : MonoBehaviour
             do
             {
                 randomCellManager = GetRandomCellFromListCellManagers();
-            } while (randomCellManager.getCell().IsBomb());
+            } while (randomCellManager.GetCell().IsBomb());
 
-            randomCellManager.getCell().SetIsBomb(true);
+            randomCellManager.GetCell().SetIsBomb(true);
             AddBombToCounterBombsAroundCell(randomCellManager);
         }
     }
 
     private CellManager GetRandomCellFromListCellManagers()
     {
-        int randomIndex = Random.Range(0, listCellManagers.Count);
-        CellManager randomCellManager = listCellManagers[randomIndex];
+        int randomX = Random.Range(0, rows);
+        int randomY = Random.Range(0, cols);
+        CellManager randomCellManager = gridArray[randomX, randomY];
 
         return randomCellManager;
     }
 
     private void AddBombToCounterBombsAroundCell(CellManager cellManager)
     {
-        int index = GetIndexOfCellManager(cellManager);
+        Vector2Int gridPos = GetGridPositionCellManager(cellManager);
 
-        if(index >= 0)
+        if(gridPos != null)
         {
-            int indexSurroundingCell;
+            Vector2Int gridPosSurroundingCell;
 
-            foreach (int indexOffset in indexOffsetsSurroundingCells)
+            foreach (Vector2Int indexOffset in indexOffsetsSurroundingCells)
             {
-                indexSurroundingCell = index + indexOffset;
+                gridPosSurroundingCell = OffsetGridPos(gridPos, indexOffset);
 
-                if(0 <= indexSurroundingCell && indexSurroundingCell < listCellManagers.Count)
+                if(IsGridPosInRangeGridArray(gridPosSurroundingCell))
                 {
-                    listCellManagers[indexSurroundingCell].getCell().AddBombsToCounterBombsAroundCell(1);
+                    gridArray[gridPosSurroundingCell.x, gridPosSurroundingCell.y].GetCell().AddBombsToCounterBombsAroundCell(1);
                 }
             }
         }
@@ -115,26 +125,39 @@ public class GridManager : MonoBehaviour
 
     public void RevealCellsAroundCell(CellManager cellManager)
     {
-        int index = GetIndexOfCellManager(cellManager);
+        Vector2Int gridPos = GetGridPositionCellManager(cellManager);
         
-        if(index >= 0)
+        if(gridPos != null)
         {
-            int indexSurroundingCell;
+            Vector2Int gridPosSurroundingCell;
 
-            foreach (int indexOffset in indexOffsetsSurroundingCells)
+            foreach (Vector2Int indexOffset in indexOffsetsSurroundingCells)
             {
-                indexSurroundingCell = index + indexOffset;
+                gridPosSurroundingCell = OffsetGridPos(gridPos, indexOffset);
 
-                if(0 <= indexSurroundingCell && indexSurroundingCell < listCellManagers.Count)
+                if(IsGridPosInRangeGridArray(gridPosSurroundingCell))
                 {
-                    listCellManagers[indexSurroundingCell].RevealCell();
+                    gridArray[gridPosSurroundingCell.x, gridPosSurroundingCell.y].RevealCell();
                 }
             }
         }
     }
 
-    private int GetIndexOfCellManager(CellManager cellManager)
+    private Vector2Int GetGridPositionCellManager(CellManager cellManager)
     {
-        return listCellManagers.IndexOf(cellManager);
+        return cellManager.GetGridPosition();
+    }
+
+    private Vector2Int OffsetGridPos(Vector2Int gridPosToOffset, Vector2Int indexOffset)
+    {
+        return new Vector2Int(gridPosToOffset.x + indexOffset.x, gridPosToOffset.y + indexOffset.y);
+    }
+
+    private bool IsGridPosInRangeGridArray(Vector2Int gridPosToCheck)
+    {
+        return (gridPosToCheck.x >= 0 &&
+                gridPosToCheck.x < gridArray.GetLength(0) &&
+                gridPosToCheck.y >= 0 &&
+                gridPosToCheck.y < gridArray.GetLength(1));
     }
 }

@@ -9,6 +9,7 @@ public class CellManager : MonoBehaviour
     private RawImage rawImg;
     private TextMeshProUGUI txtAmountBombsAroundCell;
     private Cell cell;
+    private Vector2Int gridPosition;
 
     private void Awake()
     {
@@ -27,7 +28,7 @@ public class CellManager : MonoBehaviour
         UpdateCellColor();
     }
 
-    public Cell getCell()
+    public Cell GetCell()
     {
         return cell;
     }
@@ -95,5 +96,15 @@ public class CellManager : MonoBehaviour
     public void SetCellAsBomb()
     {
         cell.SetIsBomb(true);
+    }
+
+    public Vector2Int GetGridPosition()
+    {
+        return gridPosition;
+    }
+
+    public void SetGridPosition(int row, int col)
+    {
+        gridPosition = new Vector2Int(row, col);
     }
 }
