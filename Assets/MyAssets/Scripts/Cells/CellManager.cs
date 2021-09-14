@@ -9,6 +9,7 @@ public class CellManager : MonoBehaviour
     private RawImage rawImg;
     private TextMeshProUGUI txtAmountBombsAroundCell;
     private Cell cell;
+    private Vector2Int gridPosition;
 
     private void Awake()
     {
@@ -27,29 +28,33 @@ public class CellManager : MonoBehaviour
         UpdateCellColor();
     }
 
-    public Cell getCell()
+    public Cell GetCell()
     {
         return cell;
     }
 
+    //This method only executes when CellStatus is either "Selected" or "Hidden"
     public void ChangeSelectedCell(bool selected)
     {
-        if(selected)
+        if(cell.GetCellStatus() == CellStatus.Selected || cell.GetCellStatus() == CellStatus.Hidden)
         {
-            cell.UpdateCellStatus(CellStatus.Selected);
-        }
-        else
-        {
-            cell.UpdateCellStatus(CellStatus.Hidden);
-        }
+            if(selected)
+            {
+                cell.UpdateCellStatus(CellStatus.Selected);
+            }
+            else
+            {
+                cell.UpdateCellStatus(CellStatus.Hidden);
+            }
 
-        UpdateCellColor();
+            UpdateCellColor();
+        }
     }
 
     public void RevealCell()
     {
         //Do not execute this method if the cellstatus is already visible
-        if(cell.getCellStatus() == CellStatus.Visible)
+        if(cell.GetCellStatus() == CellStatus.Visible)
         {
             return;
         }
@@ -65,6 +70,25 @@ public class CellManager : MonoBehaviour
         {
             ActivateImageBomb();
         }
+    }
+
+    //Change status to "FlaggedAsBomb" if current status is "Selected" or "Hidden"
+    //Change status back to "Selected" if current status is "FlaggedAsBomb"
+    //Then UpdateCellColor
+    public void FlagCell()
+    {
+        switch (cell.GetCellStatus())
+        {
+            case CellStatus.Selected:
+            case CellStatus.Hidden:
+                cell.UpdateCellStatus(CellStatus.FlaggedAsBomb);
+                break;
+            case CellStatus.FlaggedAsBomb:
+                cell.UpdateCellStatus(CellStatus.Hidden);
+                break;
+        }
+
+        UpdateCellColor();
     }
 
     private void ActivateImageBomb()
@@ -95,5 +119,15 @@ public class CellManager : MonoBehaviour
     public void SetCellAsBomb()
     {
         cell.SetIsBomb(true);
+    }
+
+    public Vector2Int GetGridPosition()
+    {
+        return gridPosition;
+    }
+
+    public void SetGridPosition(int row, int col)
+    {
+        gridPosition = new Vector2Int(row, col);
     }
 }
