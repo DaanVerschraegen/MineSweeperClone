@@ -65,10 +65,19 @@ public class CellManager : MonoBehaviour
         if(!cell.IsBomb())
         {
             UpdateCellText();
+            if(!GridManager.instance.AnyNonBombCellsRemaining())
+            {
+                EndGameManager.instance.EndGame(true);
+            }
         }
         else
         {
             ActivateImageBomb();
+
+            if(!EndGameManager.instance.IsGameOver())
+            {
+                EndGameManager.instance.EndGame(false);
+            }
         }
     }
 
