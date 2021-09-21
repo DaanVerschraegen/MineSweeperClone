@@ -69,6 +69,11 @@ public class CellManager : MonoBehaviour
         else
         {
             ActivateImageBomb();
+            
+            if(!EndGameManager.instance.IsGameOver())
+            {
+                EndGameManager.instance.EndGame(false);
+            }
         }
     }
 

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GridManager : MonoBehaviour
 {
-    static public GridManager instance;
+    public static GridManager instance;
 
     [SerializeField] private int rows = 9;
     [SerializeField] private int cols = 9;
@@ -140,6 +141,18 @@ public class GridManager : MonoBehaviour
                     gridArray[gridPosSurroundingCell.x, gridPosSurroundingCell.y].RevealCell();
                 }
             }
+        }
+    }
+
+    public void RevealBombs()
+    {
+        CellManager[] bombs = (from CellManager cell in gridArray
+                                where cell.GetCell().IsBomb()
+                                select cell).ToArray();
+
+        foreach (CellManager bomb in bombs)
+        {
+            bomb.RevealCell();
         }
     }
 
