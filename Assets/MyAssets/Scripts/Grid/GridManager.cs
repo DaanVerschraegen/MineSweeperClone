@@ -156,6 +156,14 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public bool AnyNonBombCellsRemaining()
+    {
+        return (from CellManager cell in gridArray
+                where !cell.GetCell().IsBomb()
+                && cell.GetCell().GetCellStatus() != CellStatus.Visible
+                select cell).Any();
+    }
+
     private Vector2Int GetGridPositionCellManager(CellManager cellManager)
     {
         return cellManager.GetGridPosition();
