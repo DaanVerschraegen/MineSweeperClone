@@ -15,11 +15,13 @@ public class GridManager : MonoBehaviour
     [Range(minGridSize, maxGridSize)]
     [SerializeField] private int cols = 9;
     [SerializeField] private float tileSize = 100f;
+    [SerializeField] private float paddingTiles = 1f;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Transform transformParent;
     [SerializeField] private int amountBombs = 10;
 
     private CellManager[,] gridArray;
+    private float tileSizeWithPadding;
     private static Vector2Int[] indexOffsetsSurroundingCells = new Vector2Int[]{
         Vector2Int.left,
         Vector2Int.up,
@@ -40,9 +42,10 @@ public class GridManager : MonoBehaviour
         else
         {
             instance = this;
-
-            gridArray = new CellManager[rows, cols];
         }
+
+        gridArray = new CellManager[rows, cols];
+        tileSizeWithPadding = tileSize + paddingTiles;
     }
 
     private void Start()
@@ -73,8 +76,8 @@ public class GridManager : MonoBehaviour
         cellManager.SetGridPosition(row, col);
 
         RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
-        float posX = col * tileSize;
-        float posY = row * -tileSize;
+        float posX = col * tileSizeWithPadding;
+        float posY = row * -tileSizeWithPadding;
         tileRectTransform.localPosition = new Vector2(posX, posY);
     }
 
@@ -82,12 +85,13 @@ public class GridManager : MonoBehaviour
     {
         RectTransform transformInfoBoard = InfoBoardUI.instance.GetComponent<RectTransform>();
 
-        float gridWidth = cols * tileSize;
-        float gridHeight = rows * tileSize;
-        transformParent.localPosition = new Vector2(-gridWidth / 2 + tileSize / 2, gridHeight / 2 - tileSize / 2 - transformInfoBoard.sizeDelta.y / 2);
+        float gridWidth = cols * tileSizeWithPadding;
+        float gridHeight = rows * tileSizeWithPadding;
+        transformParent.localPosition = new Vector2(-gridWidth / 2 + tileSizeWithPadding / 2,
+                                        gridHeight / 2 - tileSizeWithPadding / 2 - transformInfoBoard.sizeDelta.y / 2);
 
         transformInfoBoard.sizeDelta = new Vector2(gridWidth, transformInfoBoard.sizeDelta.y);
-        transformInfoBoard.localPosition += new Vector3(0, Mathf.Abs(transformParent.localPosition.y) + tileSize, 0);
+        transformInfoBoard.localPosition += new Vector3(0, Mathf.Abs(transformParent.localPosition.y) + tileSizeWithPadding, 0);
     }
 
     private void AddBombsToCells()
