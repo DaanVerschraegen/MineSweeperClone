@@ -51,6 +51,11 @@ public class InfoBoardUI : MonoBehaviour
         UpdateTextBombsRemaining();
     }
 
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
     public bool IsFirstBombSelected()
     {
         return firstBombSelected;
