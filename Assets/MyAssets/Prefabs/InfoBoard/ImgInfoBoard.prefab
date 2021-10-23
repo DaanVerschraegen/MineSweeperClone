@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 8825972772189445757}
   - component: {fileID: 8825972772189445755}
   - component: {fileID: 8825972772189445754}
+  - component: {fileID: 637835620}
   m_Layer: 5
   m_Name: ImgInfoBoard
   m_TagString: Untagged
@@ -464,6 +465,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &637835620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8825972772189445756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf3162d3212ed54494cb6cb687eacfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8825972772484845600
 GameObject:
   m_ObjectHideFlags: 0

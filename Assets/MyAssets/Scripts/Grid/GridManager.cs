@@ -18,7 +18,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Transform transformParent;
     [SerializeField] private int amountBombs = 10;
-    [SerializeField] private InfoBoardUI uiInfoBoard;
 
     private CellManager[,] gridArray;
     private static Vector2Int[] indexOffsetsSurroundingCells = new Vector2Int[]{
@@ -81,7 +80,7 @@ public class GridManager : MonoBehaviour
 
     private void UpdateParentPositionToCenter()
     {
-        RectTransform transformInfoBoard = uiInfoBoard.GetComponent<RectTransform>();
+        RectTransform transformInfoBoard = InfoBoardUI.instance.GetComponent<RectTransform>();
 
         float gridWidth = cols * tileSize;
         float gridHeight = rows * tileSize;
@@ -104,6 +103,8 @@ public class GridManager : MonoBehaviour
             randomCellManager.GetCell().SetIsBomb(true);
             AddBombToCounterBombsAroundCell(randomCellManager);
         }
+
+        InfoBoardUI.instance.SetAmountBombsRemaining(amountBombs);
     }
 
     private CellManager GetRandomCellFromListCellManagers()

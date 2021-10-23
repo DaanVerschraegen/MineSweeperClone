@@ -952,26 +952,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &637835618 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8825972772189445756, guid: 751055c2eda729a498212c69b082a780, type: 3}
+--- !u!114 &612356628 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8825972772160427274, guid: 751055c2eda729a498212c69b082a780, type: 3}
   m_PrefabInstance: {fileID: 8825972771685893918}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &637835619 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8825972772189445757, guid: 751055c2eda729a498212c69b082a780, type: 3}
   m_PrefabInstance: {fileID: 8825972771685893918}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &637835620
+--- !u!114 &801428319 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8825972772034270273, guid: 751055c2eda729a498212c69b082a780, type: 3}
+  m_PrefabInstance: {fileID: 8825972771685893918}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637835618}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddf3162d3212ed54494cb6cb687eacfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &827411804
@@ -1219,6 +1224,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56377a473b742e946bb9a74ec5dc5069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1335814728 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8825972770417765718, guid: 751055c2eda729a498212c69b082a780, type: 3}
+  m_PrefabInstance: {fileID: 8825972771685893918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1365923542
@@ -1518,7 +1534,6 @@ MonoBehaviour:
   tilePrefab: {fileID: 869476323271962885, guid: e3788cba0b3e83241b20279f4992cd1b, type: 3}
   transformParent: {fileID: 1920576748}
   amountBombs: 10
-  uiInfoBoard: {fileID: 637835620}
 --- !u!1 &1966199199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,6 +1642,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1966199200}
     m_Modifications:
+    - target: {fileID: 637835620, guid: 751055c2eda729a498212c69b082a780, type: 3}
+      propertyPath: btnResetGame
+      value: 
+      objectReference: {fileID: 801428319}
+    - target: {fileID: 637835620, guid: 751055c2eda729a498212c69b082a780, type: 3}
+      propertyPath: txtTimePassed
+      value: 
+      objectReference: {fileID: 612356628}
+    - target: {fileID: 637835620, guid: 751055c2eda729a498212c69b082a780, type: 3}
+      propertyPath: txtBombsRemaining
+      value: 
+      objectReference: {fileID: 1335814728}
+    - target: {fileID: 8825972770417765718, guid: 751055c2eda729a498212c69b082a780, type: 3}
+      propertyPath: m_text
+      value: bombs remaining
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825972770417765720, guid: 751055c2eda729a498212c69b082a780, type: 3}
+      propertyPath: m_Name
+      value: TxtBombsRemaining
+      objectReference: {fileID: 0}
     - target: {fileID: 8825972770417765721, guid: 751055c2eda729a498212c69b082a780, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1658,6 +1693,10 @@ PrefabInstance:
     - target: {fileID: 8825972772034270272, guid: 751055c2eda729a498212c69b082a780, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825972772160427276, guid: 751055c2eda729a498212c69b082a780, type: 3}
+      propertyPath: m_Name
+      value: TxtTimePassed
       objectReference: {fileID: 0}
     - target: {fileID: 8825972772160427277, guid: 751055c2eda729a498212c69b082a780, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1762,10 +1801,6 @@ PrefabInstance:
     - target: {fileID: 8825972772189445757, guid: 751055c2eda729a498212c69b082a780, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8825972772484845662, guid: 751055c2eda729a498212c69b082a780, type: 3}
-      propertyPath: m_ChildAlignment
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 751055c2eda729a498212c69b082a780, type: 3}

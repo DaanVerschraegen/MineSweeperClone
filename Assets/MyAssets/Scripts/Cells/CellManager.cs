@@ -61,6 +61,7 @@ public class CellManager : MonoBehaviour
 
         cell.UpdateCellStatus(CellStatus.Visible);
         UpdateCellColor();
+        CheckIfFirstBombSelected();
 
         if(!cell.IsBomb())
         {
@@ -91,13 +92,24 @@ public class CellManager : MonoBehaviour
             case CellStatus.Selected:
             case CellStatus.Hidden:
                 cell.UpdateCellStatus(CellStatus.FlaggedAsBomb);
+                InfoBoardUI.instance.AddBombsRemaining(-1);
                 break;
             case CellStatus.FlaggedAsBomb:
                 cell.UpdateCellStatus(CellStatus.Hidden);
+                InfoBoardUI.instance.AddBombsRemaining(1);
                 break;
         }
 
         UpdateCellColor();
+        CheckIfFirstBombSelected();
+    }
+
+    private void CheckIfFirstBombSelected()
+    {
+        if(!InfoBoardUI.instance.IsFirstBombSelected())
+        {
+            InfoBoardUI.instance.SetFirstBombSelected(true);
+        }
     }
 
     private void ActivateImageBomb()
